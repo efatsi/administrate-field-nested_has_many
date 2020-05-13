@@ -38,4 +38,21 @@ feature "Has many" do
     expect(page).to have_text("La Ferme du Bec Hellouin")
     expect(page).to have_text("Sébastien")
   end
+
+  scenario "create w/ polymorphic child relationship", js: true do
+    visit new_admin_school_path
+    expect(page).to have_content("New Schools")
+    expect(page).to have_content("Add Foo/Student")
+    fill_in "Name", with: "La Ferme du Bec Hellouin"
+    click_link "Add Foo/Student"
+    expect(page).to have_content("Remove Foo/Student")
+    within(".nested-fields") do
+      fill_in "Name", with: "Le Traitor"
+      select "School of Life", from: "Obsession"
+    end
+    click_button "Create School"
+    expect(page).to have_text("La Ferme du Bec Hellouin")
+    expect(page).to have_text("Le Traitor")
+    expect(page).to have_text("School of Life")
+  end
 end

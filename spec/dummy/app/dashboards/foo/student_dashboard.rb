@@ -11,6 +11,7 @@ class Foo::StudentDashboard < Administrate::BaseDashboard
     school: Field::BelongsTo,
     id: Field::Number,
     name: Field::String,
+    obsession: Field::Polymorphic.with_options(classes: [School, Foo::Student]),
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
   }.freeze
@@ -24,6 +25,7 @@ class Foo::StudentDashboard < Administrate::BaseDashboard
     :school,
     :id,
     :name,
+    :obsession,
     :created_at,
   ].freeze
 
@@ -33,6 +35,7 @@ class Foo::StudentDashboard < Administrate::BaseDashboard
     :school,
     :id,
     :name,
+    :obsession,
     :created_at,
     :updated_at,
   ].freeze
@@ -43,6 +46,7 @@ class Foo::StudentDashboard < Administrate::BaseDashboard
   FORM_ATTRIBUTES = [
     :school,
     :name,
+    :obsession,
   ].freeze
 
   def display_resource(student)
