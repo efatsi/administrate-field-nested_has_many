@@ -17,5 +17,19 @@ module Admin
     # def records_per_page
     #   params[:per_page] || 20
     # end
+
+    private
+
+    def read_param_value(data)
+      # Administrate runs the following conditional check:
+      # if data.is_a?(ActionController::Parameters) && data[:type]
+      # So we inject some code before that to deeply transform nested values
+      # eg: NestedHasMany field data
+      if data.is_a?(ActionController::Parameters) && !data[:type]
+        data.transform_values { |v| read_param_value(v) }
+      else
+        super
+      end
+    end
   end
 end
